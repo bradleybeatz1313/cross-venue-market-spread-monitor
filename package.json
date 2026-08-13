@@ -1,6 +1,14 @@
 {
     "name": "cross-venue-market-spread-monitor",
     "version": "0.1.0",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/bradleybeatz1313/cross-venue-market-spread-monitor.git"
+    },
+    "homepage": "https://github.com/bradleybeatz1313/cross-venue-market-spread-monitor#readme",
+    "bugs": {
+        "url": "https://github.com/bradleybeatz1313/cross-venue-market-spread-monitor/issues"
+    },
     "type": "module",
     "description": "Read-only, explainable Polymarket and Kalshi candidate spread monitor.",
     "engines": {
