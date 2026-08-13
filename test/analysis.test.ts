@@ -49,6 +49,10 @@ describe('analyzePair', () => {
         expect(
             (result?.grossCostUsd ?? 0) + (result?.estimatedFeesUsd ?? 0) + (result?.safetyBufferUsd ?? 0),
         ).toBeCloseTo(100, 3);
+        const totalModeledCapital =
+            (result?.grossCostUsd ?? 0) + (result?.estimatedFeesUsd ?? 0) + (result?.safetyBufferUsd ?? 0);
+        expect(result?.netReturnPct).toBeCloseTo(((result?.netProfitUsd ?? 0) / totalModeledCapital) * 100, 4);
+        expect(result?.netReturnPct).toBe(2.6002);
         expect(result?.riskFlags).toContain('human-resolution-review-required');
         expect(result?.direction).toBe('YES Polymarket + NO Kalshi');
     });

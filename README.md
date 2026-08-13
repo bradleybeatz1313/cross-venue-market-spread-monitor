@@ -59,7 +59,7 @@ You can download the Dataset in formats such as JSON, HTML, CSV, or Excel. A fix
     "direction": "YES Polymarket + NO Kalshi",
     "leftMarketId": "fixture-poly-election",
     "rightMarketId": "fixture-kalshi-election",
-    "netReturnPct": 2.6667,
+    "netReturnPct": 2.6273,
     "sourceObservedAt": "2026-08-13T00:00:00.000Z",
     "riskFlags": [
         "human-resolution-review-required",

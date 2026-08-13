@@ -10,7 +10,7 @@ describe('fixture pipeline', () => {
         expect(result.records.length).toBeGreaterThan(0);
         expect(result.records[0]?.sourceObservedAt).toMatch(/^2026-/);
         expect(result.records[0]?.leftMarketUrl).toMatch(/^https:\/\//);
-        expect(result.records[0]?.netReturnPct).toBe(2.6667);
+        expect(result.records[0]?.netReturnPct).toBe(2.6273);
     });
 
     it('rejects fully attested live mode before any source request', async () => {

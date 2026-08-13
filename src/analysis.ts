@@ -72,8 +72,9 @@ export function analyzePair(
         const grossCost = firstCost + secondCost;
         const fees = (grossCost * options.feeRatePct) / 100;
         const buffer = (grossCost * options.slippageBufferPct) / 100;
-        if (grossCost + fees + buffer < options.stakeUsd * (1 - 1e-6)) continue;
-        const profit = contracts - grossCost - fees - buffer;
+        const totalCapital = grossCost + fees + buffer;
+        if (totalCapital < options.stakeUsd * (1 - 1e-6)) continue;
+        const profit = contracts - totalCapital;
         const record: CandidateSpread = {
             classification: 'candidate-spread',
             direction: direction.label,
@@ -90,7 +91,7 @@ export function analyzePair(
             estimatedFeesUsd: Number(fees.toFixed(4)),
             safetyBufferUsd: Number(buffer.toFixed(4)),
             netProfitUsd: Number(profit.toFixed(4)),
-            netReturnPct: Number(((profit / grossCost) * 100).toFixed(4)),
+            netReturnPct: Number(((profit / totalCapital) * 100).toFixed(4)),
             sourceObservedAt:
                 pair.left.observedAt > pair.right.observedAt ? pair.left.observedAt : pair.right.observedAt,
             leftResolutionRules: pair.left.resolutionRules,
