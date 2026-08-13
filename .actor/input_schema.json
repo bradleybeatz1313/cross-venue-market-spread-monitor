@@ -16,7 +16,7 @@
         "stakeUsd": {
             "title": "Analysis stake (USD)",
             "type": "number",
-            "description": "Target contract count used for depth-aware cost analysis; no orders are placed.",
+            "description": "Total USD capital budget across both legs, including configured fees and safety buffer; no orders are placed.",
             "default": 100,
             "minimum": 0.01,
             "maximum": 100000
@@ -64,7 +64,7 @@
         "slippageBufferPct": {
             "title": "Safety buffer (%)",
             "type": "number",
-            "description": "Additional percentage deducted from modeled proceeds as a safety margin.",
+            "description": "Additional percentage of modeled acquisition cost reserved as a safety margin.",
             "default": 0.5,
             "minimum": 0,
             "maximum": 20

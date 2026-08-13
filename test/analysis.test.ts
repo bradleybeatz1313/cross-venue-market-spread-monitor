@@ -37,13 +37,20 @@ const pair: MatchedPair = {
 };
 
 describe('analyzePair', () => {
-    it('walks depth, includes fees and safety buffer, and never calls the result guaranteed', () => {
+    it('treats stakeUsd as a total capital budget and walks both books', () => {
         const result = analyzePair(pair, { stakeUsd: 100, feeRatePct: 1, slippageBufferPct: 0.5 });
         expect(result).not.toBeNull();
         expect(result?.classification).toBe('candidate-spread');
-        expect(result?.estimatedFeesUsd).toBeGreaterThan(0);
+        expect(result?.fillableContracts).toBeCloseTo(102.6002, 4);
+        expect(result?.grossCostUsd).toBeCloseTo(98.5222, 4);
+        expect(result?.estimatedFeesUsd).toBeCloseTo(0.9852, 4);
+        expect(result?.safetyBufferUsd).toBeCloseTo(0.4926, 4);
+        expect(result?.grossCostUsd ?? 0).toBeLessThanOrEqual(100);
+        expect(
+            (result?.grossCostUsd ?? 0) + (result?.estimatedFeesUsd ?? 0) + (result?.safetyBufferUsd ?? 0),
+        ).toBeCloseTo(100, 3);
         expect(result?.riskFlags).toContain('human-resolution-review-required');
-        expect(result?.fillableContracts).toBeGreaterThan(0);
+        expect(result?.direction).toBe('YES Polymarket + NO Kalshi');
     });
 
     it('returns null when available depth cannot cover both legs', () => {

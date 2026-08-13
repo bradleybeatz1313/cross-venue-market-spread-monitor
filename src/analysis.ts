@@ -16,6 +16,38 @@ function maxContracts(levels: Level[]): number {
     return levels.reduce((sum, level) => sum + level.size, 0);
 }
 
+function totalCapitalForContracts(
+    first: Level[],
+    second: Level[],
+    contracts: number,
+    feeRatePct: number,
+    slippageBufferPct: number,
+): number | null {
+    const firstCost = costForContracts(first, contracts);
+    const secondCost = costForContracts(second, contracts);
+    if (firstCost === null || secondCost === null) return null;
+    const grossCost = firstCost + secondCost;
+    return grossCost * (1 + (feeRatePct + slippageBufferPct) / 100);
+}
+
+function contractsForCapital(
+    first: Level[],
+    second: Level[],
+    capitalUsd: number,
+    feeRatePct: number,
+    slippageBufferPct: number,
+): number {
+    let low = 0;
+    let high = Math.min(maxContracts(first), maxContracts(second));
+    for (let iteration = 0; iteration < 60; iteration += 1) {
+        const midpoint = (low + high) / 2;
+        const totalCapital = totalCapitalForContracts(first, second, midpoint, feeRatePct, slippageBufferPct);
+        if (totalCapital !== null && totalCapital <= capitalUsd) low = midpoint;
+        else high = midpoint;
+    }
+    return low;
+}
+
 export function analyzePair(
     pair: MatchedPair,
     options: { stakeUsd: number; feeRatePct: number; slippageBufferPct: number },
@@ -26,14 +58,21 @@ export function analyzePair(
     ];
     let best: CandidateSpread | null = null;
     for (const direction of directions) {
-        const contracts = options.stakeUsd;
-        if (maxContracts(direction.first) < contracts || maxContracts(direction.second) < contracts) continue;
+        const contracts = contractsForCapital(
+            direction.first,
+            direction.second,
+            options.stakeUsd,
+            options.feeRatePct,
+            options.slippageBufferPct,
+        );
+        if (contracts <= 1e-9) continue;
         const firstCost = costForContracts(direction.first, contracts);
         const secondCost = costForContracts(direction.second, contracts);
         if (firstCost === null || secondCost === null) continue;
         const grossCost = firstCost + secondCost;
         const fees = (grossCost * options.feeRatePct) / 100;
         const buffer = (grossCost * options.slippageBufferPct) / 100;
+        if (grossCost + fees + buffer < options.stakeUsd * (1 - 1e-6)) continue;
         const profit = contracts - grossCost - fees - buffer;
         const record: CandidateSpread = {
             classification: 'candidate-spread',

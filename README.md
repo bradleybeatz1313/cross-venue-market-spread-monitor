@@ -44,9 +44,9 @@ The initial fixture-only release is intended for transparent product evaluation.
 
 See the **Input** tab for all controls. Runtime validation is stricter than the form: unknown fields, unsafe numeric bounds, and incomplete live authorizations are rejected.
 
-- `stakeUsd` is treated as the requested contract count for conservative two-leg depth coverage; no trades occur.
+- `stakeUsd` is the total USD capital budget across both legs, including the configured fee estimate and safety buffer; no trades occur.
 - `feeRatePct` is a configurable estimate, not an authoritative venue fee quote.
-- `slippageBufferPct` subtracts an additional safety margin.
+- `slippageBufferPct` reserves an additional percentage of modeled acquisition cost as a safety margin.
 - `mode: live` remains blocked even if attestations are supplied in v0.1.
 
 ## Output
@@ -59,7 +59,7 @@ You can download the Dataset in formats such as JSON, HTML, CSV, or Excel. A fix
     "direction": "YES Polymarket + NO Kalshi",
     "leftMarketId": "fixture-poly-election",
     "rightMarketId": "fixture-kalshi-election",
-    "netReturnPct": 2.18,
+    "netReturnPct": 2.6667,
     "sourceObservedAt": "2026-08-13T00:00:00.000Z",
     "riskFlags": [
         "human-resolution-review-required",
@@ -76,7 +76,8 @@ The `OUTPUT` key-value record contains the machine-readable run summary and conf
 Run through the Apify API after deployment:
 
 ```bash
-curl -X POST "https://api.apify.com/v2/acts/YOUR_USERNAME~cross-venue-market-spread-monitor/runs?token=$APIFY_TOKEN" \
+curl -X POST "https://api.apify.com/v2/acts/YOUR_USERNAME~cross-venue-market-spread-monitor/runs" \
+  -H "Authorization: Bearer $APIFY_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"mode":"fixtures","stakeUsd":100,"maxResults":10}'
 ```
