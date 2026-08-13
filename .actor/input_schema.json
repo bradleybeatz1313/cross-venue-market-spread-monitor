@@ -10,7 +10,7 @@
             "description": "Fixtures makes zero venue requests. Live is intentionally blocked pending commercial data authorization.",
             "editor": "select",
             "enum": ["fixtures", "live"],
-            "enumTitles": ["Safe deterministic fixtures", "Live APIs (authorization required; blocked in v0.1)"],
+            "enumTitles": ["Safe fixture market records", "Live APIs (authorization required; blocked in v0.1)"],
             "default": "fixtures"
         },
         "stakeUsd": {

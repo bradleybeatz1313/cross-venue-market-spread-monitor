@@ -2,7 +2,7 @@
 
 **Cross-Venue Prediction Market Spread Monitor** independently compares equivalent binary markets on [Polymarket](https://polymarket.com/) and [Kalshi](https://kalshi.com/) and returns explainable **candidate spreads**. It is read-only: it has no signer, wallet, account-password, or order-placement capability.
 
-Version 0.1 runs deterministic fixtures only and makes zero venue requests. Live mode fails closed while commercial redistribution rights are unresolved. This is deliberate: public API access does not automatically authorize a paid data product.
+Version 0.1 runs fixture market records only and makes zero venue requests. Those market records and resulting candidate records are deterministic; run metadata such as `generatedAt` records the actual execution time. Live mode fails closed while commercial redistribution rights are unresolved. This is deliberate: public API access does not automatically authorize a paid data product.
 
 ## Why use this prediction market spread monitor?
 

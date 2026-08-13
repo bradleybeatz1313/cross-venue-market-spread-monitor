@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { runAnalysis } from '../src/pipeline.js';
 
 describe('fixture pipeline', () => {
-    it('produces deterministic provenance-bearing candidate spreads and a summary', async () => {
+    it('produces deterministic provenance-bearing candidate records and a timestamped summary', async () => {
         const result = await runAnalysis({ mode: 'fixtures', stakeUsd: 100, maxResults: 10 });
         expect(result.summary.mode).toBe('fixtures');
         expect(result.summary.sourceRequests).toBe(0);
