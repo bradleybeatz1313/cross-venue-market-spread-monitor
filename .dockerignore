@@ -1,0 +1,22 @@
+# configurations
+.idea
+.vscode
+.zed
+
+# crawlee and apify storage folders
+apify_storage
+crawlee_storage
+storage
+
+# installed files
+node_modules
+
+# git folder
+.git
+
+# dist and development-only files
+dist
+test
+.github
+AGENTS.md
+CLAUDE.md

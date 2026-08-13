@@ -1,0 +1,41 @@
+{
+    "name": "cross-venue-market-spread-monitor",
+    "version": "0.1.0",
+    "type": "module",
+    "description": "Read-only, explainable Polymarket and Kalshi candidate spread monitor.",
+    "engines": {
+        "node": ">=24.0.0"
+    },
+    "dependencies": {
+        "@emnapi/core": "1.11.3",
+        "@emnapi/runtime": "1.11.3",
+        "apify": "^3.7.0",
+        "zod": "4.1.5"
+    },
+    "devDependencies": {
+        "@apify/eslint-config": "^2.0.0",
+        "@apify/tsconfig": "^0.2.0",
+        "@types/node": "^24.0.0",
+        "eslint": "^9.29.0",
+        "eslint-config-prettier": "^10.1.5",
+        "globals": "^17.0.0",
+        "prettier": "^3.5.3",
+        "tsx": "^4.20.3",
+        "typescript": "^6.0.0",
+        "typescript-eslint": "^8.58.0",
+        "vitest": "^4.1.0"
+    },
+    "scripts": {
+        "start": "npm run start:dev",
+        "start:prod": "node dist/main.js",
+        "start:dev": "tsx src/main.ts",
+        "build": "tsc",
+        "lint": "eslint",
+        "lint:fix": "eslint --fix",
+        "format": "prettier --write .",
+        "format:check": "prettier --check .",
+        "test": "vitest run"
+    },
+    "author": "Bradley Barroso",
+    "license": "MIT"
+}

@@ -1,0 +1,85 @@
+{
+    "title": "Cross-Venue Prediction Market Spread Monitor Input",
+    "type": "object",
+    "schemaVersion": 1,
+    "additionalProperties": false,
+    "properties": {
+        "mode": {
+            "title": "Data mode",
+            "type": "string",
+            "description": "Fixtures makes zero venue requests. Live is intentionally blocked pending commercial data authorization.",
+            "editor": "select",
+            "enum": ["fixtures", "live"],
+            "enumTitles": ["Safe deterministic fixtures", "Live APIs (authorization required; blocked in v0.1)"],
+            "default": "fixtures"
+        },
+        "stakeUsd": {
+            "title": "Analysis stake (USD)",
+            "type": "number",
+            "description": "Target contract count used for depth-aware cost analysis; no orders are placed.",
+            "default": 100,
+            "minimum": 0.01,
+            "maximum": 100000
+        },
+        "maxResults": {
+            "title": "Maximum results",
+            "type": "integer",
+            "description": "Maximum number of ranked candidate spread records to emit.",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 1000
+        },
+        "minSimilarity": {
+            "title": "Minimum title similarity",
+            "type": "number",
+            "description": "Minimum token similarity required before deeper compatibility checks.",
+            "default": 0.55,
+            "minimum": 0.2,
+            "maximum": 1
+        },
+        "maxCloseHours": {
+            "title": "Maximum close-time difference (hours)",
+            "type": "number",
+            "description": "Maximum difference between venue market close times.",
+            "default": 72,
+            "minimum": 1,
+            "maximum": 720
+        },
+        "minNetReturnPct": {
+            "title": "Minimum estimated net return (%)",
+            "type": "number",
+            "description": "Only emit candidates at or above this estimated post-buffer return.",
+            "default": 0,
+            "minimum": -100,
+            "maximum": 1000
+        },
+        "feeRatePct": {
+            "title": "Estimated total fee rate (%)",
+            "type": "number",
+            "description": "Conservative configurable estimate; confirm venue-specific fees manually.",
+            "default": 1,
+            "minimum": 0,
+            "maximum": 20
+        },
+        "slippageBufferPct": {
+            "title": "Safety buffer (%)",
+            "type": "number",
+            "description": "Additional percentage deducted from modeled proceeds as a safety margin.",
+            "default": 0.5,
+            "minimum": 0,
+            "maximum": 20
+        },
+        "authorization": {
+            "title": "Live source authorization",
+            "type": "object",
+            "description": "Attestation is a guardrail, not proof of permission. Live execution remains disabled in v0.1.",
+            "editor": "json",
+            "default": {
+                "polymarketPublicApiApproved": false,
+                "kalshiDeveloperAgreementReviewed": false,
+                "commercialRedistributionApproved": false,
+                "termsReviewedOn": ""
+            }
+        }
+    }
+}

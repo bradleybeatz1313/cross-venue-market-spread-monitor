@@ -1,0 +1,79 @@
+{
+    "actorSpecification": 1,
+    "fields": {
+        "type": "object",
+        "properties": {
+            "classification": { "type": "string" },
+            "direction": { "type": "string" },
+            "leftMarketId": { "type": "string" },
+            "leftMarketTitle": { "type": "string" },
+            "leftMarketUrl": { "type": "string" },
+            "rightMarketId": { "type": "string" },
+            "rightMarketTitle": { "type": "string" },
+            "rightMarketUrl": { "type": "string" },
+            "similarity": { "type": "number" },
+            "matchReasons": { "type": "array", "items": { "type": "string" } },
+            "fillableContracts": { "type": "number" },
+            "grossCostUsd": { "type": "number" },
+            "estimatedFeesUsd": { "type": "number" },
+            "safetyBufferUsd": { "type": "number" },
+            "netProfitUsd": { "type": "number" },
+            "netReturnPct": { "type": "number" },
+            "sourceObservedAt": { "type": "string", "format": "date-time" },
+            "leftResolutionRules": { "type": "string" },
+            "rightResolutionRules": { "type": "string" },
+            "riskFlags": { "type": "array", "items": { "type": "string" } }
+        },
+        "required": [
+            "classification",
+            "direction",
+            "leftMarketId",
+            "rightMarketId",
+            "leftMarketUrl",
+            "rightMarketUrl",
+            "similarity",
+            "fillableContracts",
+            "grossCostUsd",
+            "netProfitUsd",
+            "netReturnPct",
+            "sourceObservedAt",
+            "riskFlags"
+        ]
+    },
+    "views": {
+        "overview": {
+            "title": "Candidate spreads",
+            "transformation": {
+                "fields": [
+                    "direction",
+                    "leftMarketTitle",
+                    "rightMarketTitle",
+                    "netReturnPct",
+                    "netProfitUsd",
+                    "fillableContracts",
+                    "similarity",
+                    "sourceObservedAt",
+                    "leftMarketUrl",
+                    "rightMarketUrl",
+                    "riskFlags"
+                ]
+            },
+            "display": {
+                "component": "table",
+                "properties": {
+                    "direction": { "label": "Direction", "format": "text" },
+                    "leftMarketTitle": { "label": "Polymarket", "format": "text" },
+                    "rightMarketTitle": { "label": "Kalshi", "format": "text" },
+                    "netReturnPct": { "label": "Est. net return %", "format": "number" },
+                    "netProfitUsd": { "label": "Est. net profit", "format": "number" },
+                    "fillableContracts": { "label": "Fillable contracts", "format": "number" },
+                    "similarity": { "label": "Match confidence", "format": "number" },
+                    "sourceObservedAt": { "label": "Observed", "format": "date" },
+                    "leftMarketUrl": { "label": "Polymarket URL", "format": "link" },
+                    "rightMarketUrl": { "label": "Kalshi URL", "format": "link" },
+                    "riskFlags": { "label": "Review flags", "format": "array" }
+                }
+            }
+        }
+    }
+}
