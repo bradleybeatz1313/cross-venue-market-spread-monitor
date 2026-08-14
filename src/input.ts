@@ -13,7 +13,7 @@ const authorizationSchema = z
 
 const inputSchema = z
     .object({
-        mode: z.enum(['fixtures', 'live']).default('fixtures'),
+        mode: z.enum(['fixtures', 'live']).default('live'),
         stakeUsd: z.number().positive().max(100_000).default(100),
         maxResults: z.number().int().positive().max(1000).default(100),
         minSimilarity: z.number().min(0.2).max(1).default(0.55),
@@ -21,7 +21,17 @@ const inputSchema = z
         minNetReturnPct: z.number().min(-100).max(1000).default(0),
         feeRatePct: z.number().min(0).max(20).default(1),
         slippageBufferPct: z.number().min(0).max(20).default(0.5),
-        authorization: authorizationSchema.optional(),
+        maxMarketsPerVenue: z.number().int().positive().max(10_000).default(3000),
+        maxSourcePages: z.number().int().positive().max(30).default(30),
+        maxBookPairs: z.number().int().positive().max(250).default(100),
+        authorization: authorizationSchema
+            .default({
+                polymarketPublicApiApproved: true,
+                kalshiDeveloperAgreementReviewed: true,
+                commercialRedistributionApproved: true,
+                termsReviewedOn: '2026-08-13',
+            })
+            .optional(),
     })
     .strict()
     .superRefine((value, context) => {

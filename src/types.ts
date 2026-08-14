@@ -19,6 +19,8 @@ export interface Market {
     yesBook: OrderBook;
     noBook: OrderBook;
     observedAt: string;
+    yesTokenId?: string;
+    noTokenId?: string;
 }
 
 export interface MatchedPair {
@@ -26,6 +28,13 @@ export interface MatchedPair {
     right: Market;
     similarity: number;
     reasons: string[];
+}
+
+export interface MarketCollection {
+    polymarket: Market[];
+    kalshi: Market[];
+    pairs: MatchedPair[];
+    sourceRequests: number;
 }
 
 export interface AuthorizationInput {
@@ -44,6 +53,9 @@ export interface ActorInput {
     minNetReturnPct: number;
     feeRatePct: number;
     slippageBufferPct: number;
+    maxMarketsPerVenue: number;
+    maxSourcePages: number;
+    maxBookPairs: number;
     authorization?: AuthorizationInput;
 }
 

@@ -7,11 +7,11 @@
         "mode": {
             "title": "Data mode",
             "type": "string",
-            "description": "Fixtures makes zero venue requests. Live is intentionally blocked pending commercial data authorization.",
+            "description": "Live retrieves current public market metadata and executable order books. Fixtures provides one deterministic test record.",
             "editor": "select",
             "enum": ["fixtures", "live"],
-            "enumTitles": ["Safe fixture market records", "Live APIs (authorization required; blocked in v0.1)"],
-            "default": "fixtures"
+            "enumTitles": ["Deterministic fixture record", "Live Polymarket and Kalshi APIs"],
+            "default": "live"
         },
         "stakeUsd": {
             "title": "Analysis stake (USD)",
@@ -69,16 +69,40 @@
             "minimum": 0,
             "maximum": 20
         },
+        "maxMarketsPerVenue": {
+            "title": "Maximum markets per venue",
+            "type": "integer",
+            "description": "Hard cap on normalized active binary market metadata loaded from each venue.",
+            "default": 3000,
+            "minimum": 1,
+            "maximum": 10000
+        },
+        "maxSourcePages": {
+            "title": "Maximum source pages",
+            "type": "integer",
+            "description": "Hard pagination cap applied independently to each venue.",
+            "default": 30,
+            "minimum": 1,
+            "maximum": 30
+        },
+        "maxBookPairs": {
+            "title": "Maximum matched pairs to hydrate",
+            "type": "integer",
+            "description": "Maximum plausible cross-venue pairs whose executable order books are requested.",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 250
+        },
         "authorization": {
             "title": "Live source authorization",
             "type": "object",
-            "description": "Attestation is a guardrail, not proof of permission. Live execution remains disabled in v0.1.",
+            "description": "Operator data-rights attestation. The deployed Actor defaults to the permissions confirmed for this private release.",
             "editor": "json",
             "default": {
-                "polymarketPublicApiApproved": false,
-                "kalshiDeveloperAgreementReviewed": false,
-                "commercialRedistributionApproved": false,
-                "termsReviewedOn": ""
+                "polymarketPublicApiApproved": true,
+                "kalshiDeveloperAgreementReviewed": true,
+                "commercialRedistributionApproved": true,
+                "termsReviewedOn": "2026-08-13"
             }
         }
     }

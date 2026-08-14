@@ -16,10 +16,25 @@ export interface RunSummary {
     disclaimer: string;
 }
 
-export async function runAnalysis(rawInput: unknown): Promise<{ records: CandidateSpread[]; summary: RunSummary }> {
+type LiveSource = typeof fetchLiveMarkets;
+
+export async function runAnalysis(
+    rawInput: unknown,
+    liveSource: LiveSource = fetchLiveMarkets,
+): Promise<{ records: CandidateSpread[]; summary: RunSummary }> {
     const input = parseInput(rawInput);
-    const markets = input.mode === 'fixtures' ? fixtureMarkets() : await fetchLiveMarkets(input);
-    const pairs = matchMarkets(markets.polymarket, markets.kalshi, input);
+    const markets =
+        input.mode === 'fixtures'
+            ? (() => {
+                  const fixture = fixtureMarkets();
+                  return {
+                      ...fixture,
+                      pairs: matchMarkets(fixture.polymarket, fixture.kalshi, input),
+                      sourceRequests: 0,
+                  };
+              })()
+            : await liveSource(input);
+    const { pairs } = markets;
     const records = pairs
         .map((pair) => analyzePair(pair, input))
         .filter((record): record is CandidateSpread => record !== null && record.netReturnPct >= input.minNetReturnPct)
@@ -30,7 +45,7 @@ export async function runAnalysis(rawInput: unknown): Promise<{ records: Candida
         summary: {
             status: 'succeeded',
             mode: input.mode,
-            sourceRequests: input.mode === 'fixtures' ? 0 : 2,
+            sourceRequests: markets.sourceRequests,
             marketsLoaded: markets.polymarket.length + markets.kalshi.length,
             matchedPairs: pairs.length,
             resultCount: records.length,

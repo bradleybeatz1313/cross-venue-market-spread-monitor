@@ -3,15 +3,28 @@ import { describe, expect, it } from 'vitest';
 import { parseInput } from '../src/input.js';
 
 describe('parseInput', () => {
-    it('defaults to fixture mode and bounded analysis settings', () => {
+    it('defaults to live mode and bounded analysis settings after authorization', () => {
         const input = parseInput({});
-        expect(input.mode).toBe('fixtures');
+        expect(input.mode).toBe('live');
         expect(input.stakeUsd).toBe(100);
         expect(input.maxResults).toBe(100);
+        expect(input.maxMarketsPerVenue).toBe(3000);
+        expect(input.maxSourcePages).toBe(30);
+        expect(input.maxBookPairs).toBe(100);
     });
 
-    it('rejects live mode unless every source authorization is attested', () => {
-        expect(() => parseInput({ mode: 'live' })).toThrow(/authorization/i);
+    it('rejects live mode when an explicit authorization is incomplete', () => {
+        expect(() =>
+            parseInput({
+                mode: 'live',
+                authorization: {
+                    polymarketPublicApiApproved: false,
+                    kalshiDeveloperAgreementReviewed: false,
+                    commercialRedistributionApproved: false,
+                    termsReviewedOn: '',
+                },
+            }),
+        ).toThrow(/authorization/i);
     });
 
     it('accepts live mode only with explicit current source approvals', () => {

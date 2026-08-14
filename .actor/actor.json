@@ -4,7 +4,7 @@
     "name": "cross-venue-market-spread-monitor",
     "title": "Cross-Venue Prediction Market Spread Monitor",
     "description": "Read-only, explainable Polymarket and Kalshi candidate spread analysis with fee, depth, and matching evidence.",
-    "version": "0.1",
+    "version": "0.2",
     "buildTag": "latest",
     "meta": {
         "templateId": "ts-empty",
